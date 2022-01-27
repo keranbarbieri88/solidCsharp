@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using solidCsharp.Model;
-using System;
+using System.Linq;
+
 
 namespace solidCsharp.Repository
 {
@@ -9,6 +10,11 @@ namespace solidCsharp.Repository
         public UserRepository(DbContextOptions<UserRepository> options)
             : base(options)
         { }
-              
+        
+        public User GetUser(string Email)
+        {
+            var user = (from u in this.Items where u.Email == Email select u).FirstOrDefault();
+            return user;
+        }
     }
 }
