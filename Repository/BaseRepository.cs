@@ -4,13 +4,11 @@ using System.Linq;
 
 namespace solidCsharp.Repository
 {
-    public abstract class BaseRepository<T, K> : DbContext where T : class where K : BaseRepository<T, K>
-    {
+    public abstract class BaseRepository<T, K> : BaseReadOnlyRepository<T, K> where T : class where K : BaseRepository<T, K>
+	{
 		public BaseRepository(DbContextOptions<K> options)
 			: base(options)
 		{ }
-
-		protected DbSet<T> Items { get; set; }
 
 		public void Add(T item)
 		{
@@ -20,16 +18,6 @@ namespace solidCsharp.Repository
 		public void Remove(T item)
 		{
 			this.Items.Remove(item);
-		}
-
-		public IEnumerable<T> ListAll()
-		{
-			return this.Items.ToArray();
-		}
-
-		public IQueryable<T> Query()
-		{
-			return this.Items.AsQueryable();
 		}
 
 		public void Update(T item)
