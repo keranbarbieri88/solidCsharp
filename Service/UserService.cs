@@ -10,12 +10,17 @@ using System.Text;
 
 namespace solidCsharp.Service
 {
-    public class UserService
-    {
+    public class UserService : IUserService
+	{
 		private IUserRepository repository;
-		public UserService(IUserRepository repository)
+		private ICryptographyService cryptographyService;
+		private IJWTService jWTService; 
+
+		public UserService(IUserRepository repository, ICryptographyService cryptography, IJWTService jwt)
 		{
 			this.repository = repository;
+			this.cryptographyService = cryptography;
+			this.jWTService = jwt;
 		}
 
 		public void CreateUser(string Email, string Name, string Password)
@@ -25,18 +30,18 @@ namespace solidCsharp.Service
 			{
 				throw new Exception("Erro, usuário já existe!");
 			}
-			user = new User() { Email = Email, Name = Name, Password = new CryptographyService().EncryptPassword(Password)};
+			user = new User() { Email = Email, Name = Name, Password = cryptographyService.EncryptPassword(Password)};
 			this.repository.Add(user);
 		}
 
 		public string Login(string Email, string Password)
 		{
 			var user = this.repository.GetUser(Email);
-			if (user == null || !new CryptographyService().ValidatePassword(user.Password, Password))
+			if (user == null || !cryptographyService.ValidatePassword(user.Password, Password))
 			{
 				throw new Exception("Erro, usuário ou senha incorreto!");
 			}
-			return new JWTService().GenerateToken(user);
+			return jWTService.GenerateToken(user);
 		}			
 	}
 }

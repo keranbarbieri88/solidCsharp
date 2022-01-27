@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace solidCsharp.Service
 {
-    public class CryptographyService
-    {
+    public class CryptographyService : ICryptographyService
+	{
 		public bool ValidatePassword(string encryptedPassword, string typedPassword)
 		{
 			byte[] hashBytes = Convert.FromBase64String(encryptedPassword);

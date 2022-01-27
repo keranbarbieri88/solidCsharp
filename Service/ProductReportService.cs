@@ -3,8 +3,8 @@ using solidCsharp.Service.Report;
 
 namespace solidCsharp.Service
 {
-    public class ProductReportService
-    {
+    public class ProductReportService : IProductReportService
+	{
 		private IProductRepository repository;
 		public ProductReportService(IProductRepository repository)
 		{

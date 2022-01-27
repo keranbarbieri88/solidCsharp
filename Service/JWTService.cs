@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace solidCsharp.Service
 {
-    public class JWTService
+    public class JWTService : IJWTService
     {
         public string GenerateToken(User user)
         {

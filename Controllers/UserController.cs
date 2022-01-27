@@ -12,9 +12,9 @@ namespace solidCsharp.Controllers
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
-        private readonly UserService userService;
+        private readonly IUserService userService;
 
-		public UserController(ILogger<UserController> logger, UserService userService)
+		public UserController(ILogger<UserController> logger, IUserService userService)
 		{
 			_logger = logger;
 			this.userService = userService;
