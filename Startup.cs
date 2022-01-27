@@ -55,6 +55,9 @@ namespace solidCsharp
 
             services.AddScoped<UserService, UserService>();
             services.AddScoped<ProductReportService, ProductReportService>();
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

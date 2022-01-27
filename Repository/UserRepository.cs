@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace solidCsharp.Repository
 {
-    public class UserRepository : BaseRepository<User, UserRepository>
+    public class UserRepository : BaseRepository<User, UserRepository>, IUserRepository
     {
         public UserRepository(DbContextOptions<UserRepository> options)
             : base(options)

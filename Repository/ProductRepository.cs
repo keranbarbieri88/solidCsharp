@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using solidCsharp.Model;
-using System;
 using System.Linq;
 
 namespace solidCsharp.Repository
 {
-    public class ProductRepository : BaseReadOnlyRepository<Product, ProductRepository>
-    {
+    public class ProductRepository : BaseReadOnlyRepository<Product, ProductRepository>, IProductRepository
+	{
 		public ProductRepository(DbContextOptions<ProductRepository> options)
 			: base(options)
 		{
