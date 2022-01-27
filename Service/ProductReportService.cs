@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using solidCsharp.Repository;
+﻿using solidCsharp.Repository;
+using solidCsharp.Service.Report;
 
 namespace solidCsharp.Service
 {
@@ -14,29 +11,25 @@ namespace solidCsharp.Service
 			this.repository = repository;
 		}
 
-		public string GenerateReport(ReportType type)
+		public string GenerateReport(IReportGenerator generator)
 		{
 			var products = this.repository.ListAll();
-			if (type == ReportType.CSV)
+
+			generator.StartReport();
+			generator.StartHeaders();
+			generator.AddHeader("ID");
+			generator.AddHeader("Name");
+			generator.AddHeader("Price");
+			generator.FinishHeaders();
+			foreach (var product in products)
 			{
-				string report = "ID;Name;Price\r\n";
-				foreach (var product in products)
-				{
-					report += product.Id + ";" + product.Name + ";" + product.Price + "\r\n";
-				}
-				return report;
+				generator.StartLine();
+				generator.AddHeader(product.Id);
+				generator.AddHeader(product.Name);
+				generator.AddHeader(product.Price + "");
+				generator.FinishLine();
 			}
-			else if (type == ReportType.HTML)
-			{
-				string report = "<html><body><table>\r\n<th><td>ID</td><td>Name</td><td>Price</td></th>\r\n";
-				foreach (var product in products)
-				{
-					report += "<tr><td>" + product.Id + "</td><td>" + product.Name + "</td><td>" + product.Price + "</td></tr>\r\n";
-				}
-				report += "</table></body><html>";
-				return report;
-			}
-			throw new Exception("Tipo de relatório inválido!");
+			return generator.FinishReport();
 		}
 	}
 }

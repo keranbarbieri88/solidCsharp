@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using solidCsharp.Service;
+using solidCsharp.Service.Report;
 
 
 namespace solidCsharp.Controllers
@@ -17,12 +18,13 @@ namespace solidCsharp.Controllers
             _logger = logger;
             this.productReportService = productReportService;
         }
+
         [HttpGet]
         [Authorize]
-        public ActionResult<string> RelatorioProdutos([FromQuery] ReportType reportType)
+        public ActionResult<string> ReportProducts([FromQuery] ReportType reportType)
         {
             // Retorna os dados
-            return productReportService.GenerateReport(reportType);
+            return productReportService.GenerateReport(ReportGeneratorFactory.GetGenerator(reportType));
         }
 
     }
